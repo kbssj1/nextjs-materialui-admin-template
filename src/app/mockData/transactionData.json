@@ -1,0 +1,21 @@
+{
+  "transactions": [
+    {"id": "1", "productid": "product1", "customerId": "user1", "transactionDate": "2024-01-13T15:19:22.273"},
+    {"id": "2", "productid": "product1", "customerId": "user2", "transactionDate": "2024-02-13T18:19:22.273"},
+    {"id": "3", "productid": "product1", "customerId": "user3", "transactionDate": "2024-02-14T14:19:22.273"},
+    {"id": "4", "productid": "product1", "customerId": "user4", "transactionDate": "2024-02-15T15:19:22.273"},
+    {"id": "5", "productid": "product1", "customerId": "user5", "transactionDate": "2024-02-15T20:19:22.273"},
+    {"id": "6", "productid": "product2", "customerId": "user5", "transactionDate": "2024-02-16T14:19:22.273"},
+    {"id": "7", "productid": "product2", "customerId": "user5", "transactionDate": "2024-02-13T15:19:22.273"},
+    {"id": "8", "productid": "product2", "customerId": "user6", "transactionDate": "2024-02-13T18:19:22.273"},
+    {"id": "9", "productid": "product2", "customerId": "user6", "transactionDate": "2024-02-13T14:19:22.273"},
+    {"id": "10", "productid": "product3", "customerId": "user7", "transactionDate": "2024-03-13T15:20:25.273"},
+    {"id": "11", "productid": "product3", "customerId": "user7", "transactionDate": "2024-03-13T20:19:32.273"},
+    {"id": "12", "productid": "product3", "customerId": "user8", "transactionDate": "2024-04-13T21:19:32.273"},
+    {"id": "13", "productid": "product3", "customerId": "user8", "transactionDate": "2024-04-13T07:19:42.273"},
+    {"id": "14", "productid": "product5", "customerId": "user9", "transactionDate": "2024-05-13T03:19:42.273"},
+    {"id": "15", "productid": "product5", "customerId": "user9", "transactionDate": "2024-06-13T03:19:12.273"},
+		{"id": "16", "productid": "product5", "customerId": "user10", "transactionDate": "2024-06-13T15:19:12.273"},
+		{"id": "17", "productid": "product6", "customerId": "user11", "transactionDate": "2024-06-13T11:19:02.273"}
+  ]
+}
