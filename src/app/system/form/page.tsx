@@ -4,9 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+import Breadcrumb from '../../../component/breadcrumbs';
 
 export default function Page() {
 
@@ -14,17 +12,11 @@ export default function Page() {
     <Box width={600}>
       
       <Box component="section" sx={{ p: 2 }}>
-
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link 
-            underline="hover" 
-            color="inherit" 
-            href="/system">
-            System1
-          </Link>
-          <Typography color="text.primary">Create</Typography>
-        </Breadcrumbs>
-
+        <Breadcrumb breadcrumbs={[{
+            label: "test1",
+            href: "/system/form",
+            active: true
+        }]}/>
       </Box>
 
 
