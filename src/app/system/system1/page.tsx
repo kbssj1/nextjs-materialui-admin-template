@@ -9,28 +9,35 @@ import Stack from '@mui/material/Stack';
 
 export default function Page() {
   const data = Transactions.transactions;
-  const [selectedItem, setSelectedItem] = React.useState(null);
+  const [selectedItem, setSelectedItem] = React.useState<GridRowSelectionModel>([]);
   const [disabledDeleteButton, setDisabledDeleteButton] = React.useState(true);
   const [disabledUpdateButton, setDisabledUpdateButton] = React.useState(true);
   const router = useRouter();
 
   const addData = () => {
-    router.push('/system/system1/form');
+    router.push('/system/system1/form?action=create');
   };
 
   const updateData = () => {
-    router.push('/system/system1/form');
+    router.push('/system/system1/form?action=update&id='+selectedItem);
   };
 
   const deleteData = () => {
-
+    if (window.confirm("Do you really want to delete?")) {
+     
+    }
   };
 
   const onRowSelectionModelChange = (newRowSelectionModel:GridRowSelectionModel) => {
     const length = newRowSelectionModel.length;
     if (length > 0) {
       setDisabledDeleteButton(false);
-      setDisabledUpdateButton(false);
+      setDisabledUpdateButton(true);
+      setSelectedItem(newRowSelectionModel);
+      if (length == 1) {
+        setDisabledDeleteButton(false);
+        setDisabledUpdateButton(false);
+      }
     } else {
       setDisabledDeleteButton(true);
       setDisabledUpdateButton(true);

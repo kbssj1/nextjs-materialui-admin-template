@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 interface Breadcrumb {
   label: string;
   href: string;
-  active?: boolean;
+  active: boolean;
 }
 
 export default function BreadcrumbComp({
@@ -17,10 +17,14 @@ export default function BreadcrumbComp({
   return (
     <Breadcrumbs aria-label="breadcrumb">
       {breadcrumbs.length > 0 &&  
-        breadcrumbs.map((breadcrumb, index) => (
+        breadcrumbs.map((breadcrumb:Breadcrumb, index) => (
+          breadcrumb.active === true ? 
           <Link key={index} underline="hover" color="inherit" href={breadcrumb.href}>
             {breadcrumb.label}
-          </Link>
+          </Link> :
+          <Typography key={index} color="text.primary">
+            {breadcrumb.label}
+          </Typography>
         ))
       }
     </Breadcrumbs>

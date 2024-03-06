@@ -6,8 +6,8 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Breadcrumb from '../../../../component/breadcrumbs';
 
-export default function Page() {
-
+export default function Page({ searchParams }: { searchParams: { action: string; id: string; };})  
+{
   return (
     <Box width={600}>
       
@@ -17,9 +17,9 @@ export default function Page() {
           href: "/system/system1",
           active: true
         }, {
-          label: "form",
+          label: searchParams.action === "create" ? "create" : searchParams.id,
           href: "/system/system1/form",
-          active: true
+          active: false
         }]}/>
       </Box>
 
@@ -32,6 +32,7 @@ export default function Page() {
             InputLabelProps={{
               shrink: true,
             }}
+            defaultValue={searchParams.id}
           />
         </Grid>
 
