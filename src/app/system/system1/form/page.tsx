@@ -4,7 +4,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Breadcrumb from '../../../component/breadcrumbs';
+import Breadcrumb from '../../../../component/breadcrumbs';
 
 export default function Page() {
 
@@ -13,12 +13,15 @@ export default function Page() {
       
       <Box component="section" sx={{ p: 2 }}>
         <Breadcrumb breadcrumbs={[{
-            label: "test1",
-            href: "/system/form",
-            active: true
+          label: "system1",
+          href: "/system/system1",
+          active: true
+        }, {
+          label: "form",
+          href: "/system/system1/form",
+          active: true
         }]}/>
       </Box>
-
 
       <Grid container spacing={2}>
         <Grid item >

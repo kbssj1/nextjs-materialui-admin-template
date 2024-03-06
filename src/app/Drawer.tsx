@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -18,10 +18,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const drawerWidth = 240;
 
@@ -77,6 +79,116 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+const dashboardMenuList = (open: boolean, router:AppRouterInstance) => {
+  return (
+    <List>
+      <ListItem key={1} disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}
+          onClick={() => {router.push('/dashboard/dashboard1')}} 
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}
+          >
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText 
+            primary={"dashboard1"} 
+            sx={{ opacity: open ? 1 : 0 }} 
+          />
+        </ListItemButton>
+      </ListItem>
+      <ListItem key={2} disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}
+          onClick={() => {router.push('/dashboard/dashboard2')}} 
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}
+          >
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText 
+            primary={"dashboard2"} 
+            sx={{ opacity: open ? 1 : 0 }} 
+          />
+        </ListItemButton>
+      </ListItem>
+    </List>
+  );
+}
+
+const systemMenuList = (open: boolean, router:AppRouterInstance) => {
+  return (
+    <List>
+      <ListItem key={1} disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}
+          onClick={() => {router.push('/system/system1')}}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}
+          >
+            <SettingsSuggestIcon />
+          </ListItemIcon>
+          <ListItemText 
+            primary={"system1"} 
+            sx={{ opacity: open ? 1 : 0 }}  
+          />
+        </ListItemButton>
+      </ListItem>
+      <ListItem key={2} disablePadding sx={{ display: 'block' }}>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}
+          onClick={() => {router.push('/system/system2')}}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+            }}
+          >
+            <SettingsSuggestIcon />
+          </ListItemIcon>
+          <ListItemText 
+            primary={"system2"} 
+            sx={{ opacity: open ? 1 : 0 }} 
+          />
+        </ListItemButton>
+      </ListItem>
+    </List>
+  );
+}
+
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
@@ -98,6 +210,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -128,14 +241,14 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
             <Button
                 key={1}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                onClick={() => router.push('/dashboard')}
+                onClick={() => router.push('/dashboard/dashboard1')}
               >
                 DashBoard
             </Button>
             <Button
                 key={2}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                onClick={() => router.push('/system')}
+                onClick={() => router.push('/system/system1')}
               >
                 System
             </Button>
@@ -162,29 +275,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem key={1} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={"dashboard1"} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        </List>
+        {pathname.split("/")[1] === "dashboard" ? dashboardMenuList(open, router) : systemMenuList(open, router)}
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

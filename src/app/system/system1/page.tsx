@@ -2,22 +2,24 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import Transactions from '../mockData/transactionData.json';
+import Transactions from '../../mockData/transactionData.json';
 import { DataGrid, GridToolbar, GridRowSelectionModel } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
 export default function Page() {
   const data = Transactions.transactions;
+  const [selectedItem, setSelectedItem] = React.useState(null);
   const [disabledDeleteButton, setDisabledDeleteButton] = React.useState(true);
+  const [disabledUpdateButton, setDisabledUpdateButton] = React.useState(true);
   const router = useRouter();
 
   const addData = () => {
-    router.push('/system/form');
+    router.push('/system/system1/form');
   };
 
   const updateData = () => {
-    router.push('/system/form');
+    router.push('/system/system1/form');
   };
 
   const deleteData = () => {
@@ -28,8 +30,10 @@ export default function Page() {
     const length = newRowSelectionModel.length;
     if (length > 0) {
       setDisabledDeleteButton(false);
+      setDisabledUpdateButton(false);
     } else {
       setDisabledDeleteButton(true);
+      setDisabledUpdateButton(true);
     }
   }
 
@@ -39,7 +43,7 @@ export default function Page() {
           <Button variant="contained" size="small" onClick={addData}>
             Add
           </Button>
-          <Button variant="contained" size="small" onClick={updateData}>
+          <Button variant="contained" disabled={disabledUpdateButton} size="small" onClick={updateData}>
             Update
           </Button>
           <Button variant="contained" disabled={disabledDeleteButton} size="small" onClick={deleteData}>
