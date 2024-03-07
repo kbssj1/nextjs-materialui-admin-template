@@ -23,6 +23,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 const drawerWidth = 240;
@@ -209,6 +211,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
   const router = useRouter();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const menuOpen = Boolean(anchorEl);
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
 
@@ -218,6 +222,14 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -255,17 +267,27 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Menu">
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleClick}
+              sx={{ mr: 2 }}
+            >
+            <MoreVertIcon />
+            </IconButton>
+            <Menu
+                id="basic-menu"
+                onClose={handleClose}
+                anchorEl={anchorEl}
+                open={menuOpen}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
               >
-                <MoreVertIcon />
-              </IconButton>
-            </Tooltip>
+                <MenuItem>LogOut</MenuItem>
+              </Menu>
           </Box>
         </Toolbar>
       </AppBar>

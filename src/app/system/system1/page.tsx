@@ -6,6 +6,7 @@ import Transactions from '../../mockData/transactionData.json';
 import { DataGrid, GridToolbar, GridRowSelectionModel } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 export default function Page() {
   const data = Transactions.transactions;
@@ -46,6 +47,9 @@ export default function Page() {
 
   return (
       <div style={{ height: 350, width: '100%' }}>
+        <Typography variant="h4" gutterBottom>
+          System1
+        </Typography>
         <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
           <Button variant="contained" size="small" onClick={addData}>
             Add
@@ -71,6 +75,10 @@ export default function Page() {
           }}
           checkboxSelection
           disableRowSelectionOnClick
+          initialState={{
+            pagination: { paginationModel: { pageSize: 5 } },
+          }}
+          pageSizeOptions={[5, 10]}
         />
       </div>
   );

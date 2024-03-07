@@ -1,13 +1,26 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Breadcrumb from '../../../../component/breadcrumbs';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 export default function Page({ searchParams }: { searchParams: { action: string; id: string; };})  
 {
+  const router = useRouter();
+
+  const ok = () => {
+    router.push('/system/system1');
+  };
+
+  const cancel = () => {
+    router.push('/system/system1');
+  };
+
   return (
     <Box width={600}>
       
@@ -70,6 +83,10 @@ export default function Page({ searchParams }: { searchParams: { action: string;
         </Grid>
 
       </Grid>
+      <Stack sx={{ pt: 2 }} spacing={2} direction="row">
+        <Button variant="contained" onClick={cancel}>Cancel</Button>
+        <Button variant="contained" onClick={ok}>Ok</Button>
+      </Stack>
     </Box>
 
   );
