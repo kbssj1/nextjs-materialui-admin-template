@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.11",
     "@mui/material-nextjs": "^5.15.11",
+    "@mui/x-charts": "^6.19.5",
     "@mui/x-data-grid": "^6.19.6",
     "next": "14.1.0",
     "react": "^18",
