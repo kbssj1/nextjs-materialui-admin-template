@@ -1,17 +1,27 @@
 "use client";
 
 import React from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Transactions from '../../mockData/transactionData.json';
+import { BarChart } from '@mui/x-charts/BarChart';
+import { LineChart } from '@mui/x-charts/LineChart';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 export default function Page() {
 
    function calculateCount(arr:any[], standard:string) {
       let result:any[] = arr.reduce((prev, curr) => (prev[curr[standard]] = ++prev[curr[standard]] || 1, prev), {});
       return Object.values(result);
+   }
+
+   function insertKey(arr:any[]) {
+      let result:any[] = [];
+      for (let i=0;i<arr.length;++i) {
+         result.push({value: arr[i]});
+      }
+      return result;
    }
 
    const data = Transactions.transactions;
@@ -29,12 +39,11 @@ export default function Page() {
          <Grid container spacing={2}>
             <Grid item xs={6}>
                <Typography variant="h5">
-                  Dashboard1
+                  Chart1
                </Typography>
                <BarChart
                   xAxis={[
                      {
-                        id: 'barCategories',
                         data: xAxis,
                         scaleType: 'band',
                      },
@@ -50,19 +59,13 @@ export default function Page() {
             </Grid>
             <Grid item xs={6}>
                <Typography variant="h5">
-                  Dashboard1
+                  Chart2
                </Typography>
-               <BarChart
-                  xAxis={[
-                     {
-                        id: 'barCategories',
-                        data: ['bar A', 'bar B', 'bar C'],
-                        scaleType: 'band',
-                     },
-                  ]}
+               <LineChart
+                  xAxis={[{ scaleType: 'point', data: xAxis }]}
                   series={[
                      {
-                        data: [2, 5, 3],
+                        data: series,
                      },
                   ]}
                   width={500}
@@ -71,20 +74,11 @@ export default function Page() {
             </Grid>
             <Grid item xs={6}>
                <Typography variant="h5">
-                  Dashboard1
+                  Chart3
                </Typography>
-               <BarChart
-                  xAxis={[
-                     {
-                        id: 'barCategories',
-                        data: ['bar A', 'bar B', 'bar C'],
-                        scaleType: 'band',
-                     },
-                  ]}
+               <PieChart
                   series={[
-                     {
-                        data: [2, 5, 3],
-                     },
+                     { data: insertKey(series) },
                   ]}
                   width={500}
                   height={300}
@@ -92,19 +86,18 @@ export default function Page() {
             </Grid>
             <Grid item xs={6}>
                <Typography variant="h5">
-                  Dashboard1
+                  Chart4
                </Typography>
                <BarChart
                   xAxis={[
                      {
-                        id: 'barCategories',
-                        data: ['bar A', 'bar B', 'bar C'],
+                        data: xAxis,
                         scaleType: 'band',
                      },
                   ]}
                   series={[
                      {
-                        data: [2, 5, 3],
+                        data: series,
                      },
                   ]}
                   width={500}
