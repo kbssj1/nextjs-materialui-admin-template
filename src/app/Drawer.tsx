@@ -53,7 +53,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
+  justifyContent: 'flex-start',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -67,6 +67,7 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  width: `calc(100% - ${64}px)`,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -81,7 +82,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const dashboardMenuList = (open: boolean, router:AppRouterInstance) => {
+const dashboardMenuList = (open: boolean, router:AppRouterInstance, path: String) => {
   return (
     <List>
       <ListItem key={1} disablePadding sx={{ display: 'block' }}>
@@ -91,7 +92,8 @@ const dashboardMenuList = (open: boolean, router:AppRouterInstance) => {
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          onClick={() => {router.push('/dashboard/dashboard1')}} 
+          onClick={() => {router.push('/dashboard/dashboard1')}}
+          selected={path === "dashboard1" ? true : false}
         >
           <ListItemIcon
             sx={{
@@ -115,7 +117,8 @@ const dashboardMenuList = (open: boolean, router:AppRouterInstance) => {
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          onClick={() => {router.push('/dashboard/dashboard2')}} 
+          onClick={() => {router.push('/dashboard/dashboard2')}}
+          selected={path === "dashboard2" ? true : false}
         >
           <ListItemIcon
             sx={{
@@ -136,7 +139,7 @@ const dashboardMenuList = (open: boolean, router:AppRouterInstance) => {
   );
 }
 
-const systemMenuList = (open: boolean, router:AppRouterInstance) => {
+const systemMenuList = (open: boolean, router:AppRouterInstance, path: String) => {
   return (
     <List>
       <ListItem key={1} disablePadding sx={{ display: 'block' }}>
@@ -147,6 +150,7 @@ const systemMenuList = (open: boolean, router:AppRouterInstance) => {
             px: 2.5,
           }}
           onClick={() => {router.push('/system/system1')}}
+          selected={path === "system1" ? true : false}
         >
           <ListItemIcon
             sx={{
@@ -171,6 +175,7 @@ const systemMenuList = (open: boolean, router:AppRouterInstance) => {
             px: 2.5,
           }}
           onClick={() => {router.push('/system/system2')}}
+          selected={path === "system2" ? true : false}
         >
           <ListItemIcon
             sx={{
@@ -217,11 +222,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
+    setOpen(!open);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -235,25 +236,26 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} color="primary">
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
             <Button
                 key={1}
                 sx={{ my: 2, color: 'white', display: 'block' }}
                 onClick={() => router.push('/dashboard/dashboard1')}
+                variant="outlined"
+                color={pathname.split("/")[1] === "dashboard" ? "secondary" : "primary"}
               >
                 DashBoard
             </Button>
@@ -261,6 +263,8 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
                 key={2}
                 sx={{ my: 2, color: 'white', display: 'block' }}
                 onClick={() => router.push('/system/system1')}
+                variant="outlined"
+                color={pathname.split("/")[1] === "system" ? "secondary" : "primary"}
               >
                 System
             </Button>
@@ -275,29 +279,27 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
               onClick={handleClick}
               sx={{ mr: 2 }}
             >
-            <MoreVertIcon />
+              <MoreVertIcon />
             </IconButton>
             <Menu
-                id="basic-menu"
-                onClose={handleClose}
-                anchorEl={anchorEl}
-                open={menuOpen}
-                MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-                }}
-              >
-                <MenuItem>LogOut</MenuItem>
-              </Menu>
+              id="basic-menu"
+              onClose={handleClose}
+              anchorEl={anchorEl}
+              open={menuOpen}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem>LogOut</MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+          Logo
         </DrawerHeader>
-        {pathname.split("/")[1] === "dashboard" ? dashboardMenuList(open, router) : systemMenuList(open, router)}
+        {pathname.split("/")[1] === "dashboard" ? dashboardMenuList(open, router, pathname.split("/")[2]) : systemMenuList(open, router, pathname.split("/")[2])}
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
