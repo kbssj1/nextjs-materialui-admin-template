@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled, useTheme, Theme, CSSObject, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -12,20 +12,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const drawerWidth = 240;
 
@@ -49,6 +47,48 @@ const closedMixin = (theme: Theme): CSSObject => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const options = [
+  {label:'System1', href: '/system/system1'}, 
+  {label:'System2', href: '/system/system2'}
+];
+
+function UseAutocomplete() {
+  return (
+    <Autocomplete
+      sx={{
+        display: 'inline-block',
+        '& input': {
+          width: 200,
+          bgcolor: 'background.paper',
+        },
+      }}
+      id="custom-input-demo"
+      options={options}
+      renderInput={(params) => (
+        <div ref={params.InputProps.ref}>
+          <input type="text" {...params.inputProps} />
+        </div>
+      )}
+    />
+  );
+}
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -270,7 +310,13 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box 
+            display="flex"
+            alignItems="center"
+            sx={{ flexGrow: 0 }}>
+            <Search>
+              {UseAutocomplete()}
+            </Search>
             <IconButton
               size="large"
               edge="start"
@@ -297,7 +343,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          Logo
+          TryLab
         </DrawerHeader>
         {pathname.split("/")[1] === "dashboard" ? dashboardMenuList(open, router, pathname.split("/")[2]) : systemMenuList(open, router, pathname.split("/")[2])}
         <Divider />
