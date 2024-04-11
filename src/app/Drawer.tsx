@@ -24,6 +24,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Autocomplete from '@mui/material/Autocomplete';
+import Image from 'next/image';
+import Typography from '@mui/material/Typography';
 
 const drawerWidth = 240;
 
@@ -343,7 +345,10 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          TryLab
+          <Image src="/lablogo.png" width={50} height={50} alt="logo" /> 
+          <Typography variant="h6">
+            &nbsp; &nbsp;TryLab
+          </Typography>
         </DrawerHeader>
         {pathname.split("/")[1] === "dashboard" ? dashboardMenuList(open, router, pathname.split("/")[2]) : systemMenuList(open, router, pathname.split("/")[2])}
         <Divider />
