@@ -68,10 +68,12 @@ const Search = styled('div')(({ theme }) => ({
 
 const options = [
   {label:'System1', href: '/system/system1'}, 
-  {label:'System2', href: '/system/system2'}
+  {label:'System2', href: '/system/system2'},
+  {label:'Dashboard1', href: '/dashboard/dashboard1'},
+  {label:'Dashboard2', href: '/dashboard/dashboard2'}
 ];
 
-function UseAutocomplete() {
+function PageSearchBar(router:AppRouterInstance) {
   return (
     <Autocomplete
       sx={{
@@ -81,13 +83,13 @@ function UseAutocomplete() {
           bgcolor: 'background.paper',
         },
       }}
-      id="custom-input-demo"
       options={options}
       renderInput={(params) => (
         <div ref={params.InputProps.ref}>
           <input type="text" {...params.inputProps} />
         </div>
       )}
+      onChange={(event, newValue) => {if (newValue) router.push(newValue.href)}}
     />
   );
 }
@@ -317,7 +319,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
             alignItems="center"
             sx={{ flexGrow: 0 }}>
             <Search>
-              {UseAutocomplete()}
+              {PageSearchBar(router)}
             </Search>
             <IconButton
               size="large"
