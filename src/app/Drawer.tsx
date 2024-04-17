@@ -298,7 +298,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
                 key={1}
                 sx={{ my: 2, color: 'white', display: 'block' }}
                 onClick={() => router.push('/dashboard/dashboard1')}
-                variant="outlined"
+                variant={pathname.split("/")[1] === "dashboard" ? "contained" : "outlined"}
                 color={pathname.split("/")[1] === "dashboard" ? "secondary" : "primary"}
               >
                 DashBoard
@@ -307,7 +307,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
                 key={2}
                 sx={{ my: 2, color: 'white', display: 'block' }}
                 onClick={() => router.push('/system/system1')}
-                variant="outlined"
+                variant={pathname.split("/")[1] === "system" ? "contained" : "outlined"}
                 color={pathname.split("/")[1] === "system" ? "secondary" : "primary"}
               >
                 System
