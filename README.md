@@ -1,7 +1,6 @@
 
 ## Introduction
-
-
+- nextjs admin template
 
 ## Layout Features
 
@@ -19,4 +18,4 @@
 - mui-x-datagrid
 
 ## demo
-- 
+- admin-template.try-lab.com
