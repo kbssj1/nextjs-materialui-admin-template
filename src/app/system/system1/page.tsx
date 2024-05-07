@@ -49,7 +49,7 @@ export default function Page() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column'}}>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: window.screen.height * 0.75}}>
       <div style={{ height: 400}}>
         <Typography variant="h4" gutterBottom>
           System1
@@ -84,8 +84,6 @@ export default function Page() {
           }}
           pageSizeOptions={[5, 10]}
         />
-      </div>
-      <div style={{ height: 200}}>
       </div>
       {!disabledUpdateButton && 
       <Box sx={{ border: '1px solid grey' }}>
