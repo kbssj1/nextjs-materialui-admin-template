@@ -7,6 +7,9 @@ import { DataGrid, GridToolbar, GridRowSelectionModel } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 export default function Page() {
   const data = Transactions.transactions;
@@ -46,7 +49,8 @@ export default function Page() {
   }
 
   return (
-      <div style={{ height: 350, width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column'}}>
+      <div style={{ height: 400}}>
         <Typography variant="h4" gutterBottom>
           System1
         </Typography>
@@ -81,5 +85,24 @@ export default function Page() {
           pageSizeOptions={[5, 10]}
         />
       </div>
+      <div style={{ height: 200}}>
+      </div>
+      {!disabledUpdateButton && 
+      <Box sx={{ border: '1px solid grey' }}>
+        <Stack direction="row" spacing={2} padding={2}>
+            <Card>
+              <CardContent>
+                <Typography gutterBottom>
+                  Transactions
+                </Typography>
+                <Typography variant="h5">
+                  {data.length}
+                </Typography>
+              </CardContent>
+            </Card>
+        </Stack>
+      </Box>}
+    </div>
+
   );
 }
