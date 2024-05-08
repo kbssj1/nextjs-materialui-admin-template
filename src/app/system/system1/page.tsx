@@ -18,6 +18,13 @@ export default function Page() {
   const [disabledUpdateButton, setDisabledUpdateButton] = React.useState(true);
   const router = useRouter();
 
+  React.useEffect(() => {
+    let div = document.getElementById("systemPage1");
+    if (div != null) {
+      div.style.height = window.screen.height * 0.75 + "px";
+    }
+  }, [])
+
   const addData = () => {
     router.push('/system/system1/form?action=create');
   };
@@ -28,7 +35,7 @@ export default function Page() {
 
   const deleteData = () => {
     if (window.confirm("Do you really want to delete?")) {
-     
+      
     }
   };
 
@@ -49,7 +56,7 @@ export default function Page() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: window.screen.height * 0.75}}>
+    <div id="systemPage1" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
       <div style={{ height: 400}}>
         <Typography variant="h4" gutterBottom>
           System1
