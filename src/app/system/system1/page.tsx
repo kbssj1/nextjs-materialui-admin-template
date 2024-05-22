@@ -38,6 +38,8 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+// await을 사용하기 위해서는 Server Component를 만들어야 함... 
+// 그러기 위해서는 useState 사용하는 부분을 Client Component로 만들어야 함...
 export default function Page() {
   const data = Transactions.transactions;
   const [selectedItem, setSelectedItem] = React.useState<GridRowSelectionModel>([]);
