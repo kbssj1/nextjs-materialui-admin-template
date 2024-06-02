@@ -8,6 +8,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { LineChart } from '@mui/x-charts/LineChart';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,17 +52,24 @@ export default function BottomTab () {
           <Tab label="Detail" />
         </Tabs>
         <TabPanel value={tabValue} index={0}>
-          <Stack direction="row" spacing={2} padding={2}>
-              <Card>
-                <CardContent>
-                  <Typography gutterBottom>
-                    Transactions
-                  </Typography>
-                  <Typography variant="h5">
-                    10
-                  </Typography>
-                </CardContent>
-              </Card>
+          <Stack direction="row" spacing={1} padding={1}>
+            <Card>
+              <CardContent>
+                <Typography gutterBottom>
+                  Transactions
+                </Typography>
+                <LineChart
+                  xAxis={[{ data: [1, 2, 3, 4, 5, 6]}]}
+                  series={[
+                    {
+                      data: [2, 5.5, 2, 8.5, 1.5, 5],
+                    },
+                  ]}
+                  width={300}
+                  height={200}
+                />
+              </CardContent>
+            </Card>
           </Stack>
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
