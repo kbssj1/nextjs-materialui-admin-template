@@ -2,27 +2,13 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import 'react-data-grid/lib/styles.css';
-import './test.css'
-import DataGrid from 'react-data-grid';
+import { DataGrid, GridToolbar, GridRowSelectionModel } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Transaction } from '../../service/definitions';
-import BottomTab from './bottomTab';
 
-const columns = [
-  { key: 'id', name: 'ID' },
-  { key: 'title', name: 'Title' }
-];
-
-const rows = [
-  { id: 0, title: 'Example' },
-  { id: 1, title: 'Demo' }
-];
-
-export default function MuiDataGrid( {data}: {data: Transaction[]}) {
-  const [selectedItem, setSelectedItem] = React.useState<any>([]);
+export default async function GridData(data : []) {
+  const [selectedItem, setSelectedItem] = React.useState<GridRowSelectionModel>([]);
   const [disabledDeleteButton, setDisabledDeleteButton] = React.useState(true);
   const [disabledUpdateButton, setDisabledUpdateButton] = React.useState(true);
   const router = useRouter();
@@ -48,7 +34,7 @@ export default function MuiDataGrid( {data}: {data: Transaction[]}) {
     }
   };
 
-  const onRowSelectionModelChange = (newRowSelectionModel:any) => {
+  const onRowSelectionModelChange = (newRowSelectionModel:GridRowSelectionModel) => {
     const length = newRowSelectionModel.length;
     if (length > 0) {
       setDisabledDeleteButton(false);
@@ -66,7 +52,7 @@ export default function MuiDataGrid( {data}: {data: Transaction[]}) {
 
   return (
     <div id="systemPage1" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-      <div style={{ height: '40%'}}>
+      <div style={{ height: 400}}>
         <Typography variant="h4" gutterBottom>
           System1
         </Typography>
@@ -81,10 +67,26 @@ export default function MuiDataGrid( {data}: {data: Transaction[]}) {
             Delete
           </Button>
         </Stack>
-        <DataGrid className='rdg-light' columns={columns} rows={rows} />
+        <DataGrid
+          columns={[
+            { field: 'id', width: 80 }, 
+            { field: 'productid', editable: true, width: 150 }, 
+            { field: 'customerId', editable: true, width: 150 }, 
+            { field: 'transactionDate', width: 300} 
+          ]}
+          rows={data}
+          onRowSelectionModelChange={onRowSelectionModelChange}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+          checkboxSelection
+          disableRowSelectionOnClick
+          initialState={{
+            pagination: { paginationModel: { pageSize: 5 } },
+          }}
+          pageSizeOptions={[5, 10]}
+        />
       </div>
-      <div style={{ height: '30%'}}> </div>
-      {!disabledUpdateButton && <div style={{ height: '30%'}}> <BottomTab /> </div>}
     </div>
 
   );
