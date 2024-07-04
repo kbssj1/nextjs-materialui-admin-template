@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import 'react-data-grid/lib/styles.css';
-import './test.css'
 import DataGrid from 'react-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
