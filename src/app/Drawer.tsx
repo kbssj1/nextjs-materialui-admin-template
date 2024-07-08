@@ -74,7 +74,7 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const AppBar = styled(MuiAppBar, {
+const AppBarStyle = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -92,6 +92,99 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
+
+const AppBarMenu = () => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <IconButton
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        onClick={handleClick}
+        sx={{ mr: 2 }}
+      > 
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        onClose={handleClose}
+        anchorEl={anchorEl}
+        open={anchorEl ? true : false}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem>LogOut</MenuItem>
+      </Menu>
+    </>
+  );
+}
+
+const AppBar = ({ open, pathname, setOpen, router } : { open: boolean, pathname: string, setOpen: Function, router: AppRouterInstance }) => {
+
+  const handleDrawerOpen = () => {
+    setOpen(!open);
+  };
+
+  return (
+    <AppBarStyle position="fixed" open={open} color="primary">
+      <Toolbar>
+        <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Button
+              key={1}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={() => router.push('/dashboard/dashboard1')}
+              variant={pathname.split("/")[1] === "dashboard" ? "contained" : "outlined"}
+              color={pathname.split("/")[1] === "dashboard" ? "secondary" : "primary"}
+            >
+              DashBoard
+          </Button>
+          <Button
+              key={2}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              onClick={() => router.push('/system/system1')}
+              variant={pathname.split("/")[1] === "system" ? "contained" : "outlined"}
+              color={pathname.split("/")[1] === "system" ? "secondary" : "primary"}
+            >
+              System
+          </Button>
+        </Box>
+
+        <Box 
+          display="flex"
+          alignItems="center"
+          sx={{ flexGrow: 0 }}>
+          <Search>
+            {PageSearchBar(router)}
+          </Search>
+          <AppBarMenu />
+        </Box>
+      </Toolbar>
+    </AppBarStyle>
+  )
+}
 
 const dashboardMenuList = (open: boolean, router:AppRouterInstance, path: String) => {
   return (
@@ -256,92 +349,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
-  const theme = useTheme();
   const router = useRouter();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const menuOpen = Boolean(anchorEl);
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
 
-  const handleDrawerOpen = () => {
-    setOpen(!open);
-  };
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <div style={{display: "flex"}}>
-      <AppBar position="fixed" open={open} color="primary">
-        <Toolbar>
-          <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                marginRight: 5
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Button
-                key={1}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                onClick={() => router.push('/dashboard/dashboard1')}
-                variant={pathname.split("/")[1] === "dashboard" ? "contained" : "outlined"}
-                color={pathname.split("/")[1] === "dashboard" ? "secondary" : "primary"}
-              >
-                DashBoard
-            </Button>
-            <Button
-                key={2}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                onClick={() => router.push('/system/system1')}
-                variant={pathname.split("/")[1] === "system" ? "contained" : "outlined"}
-                color={pathname.split("/")[1] === "system" ? "secondary" : "primary"}
-              >
-                System
-            </Button>
-          </Box>
-
-          <Box 
-            display="flex"
-            alignItems="center"
-            sx={{ flexGrow: 0 }}>
-            <Search>
-              {PageSearchBar(router)}
-            </Search>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={handleClick}
-              sx={{ mr: 2 }}
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="basic-menu"
-              onClose={handleClose}
-              anchorEl={anchorEl}
-              open={menuOpen}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem>LogOut</MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </AppBar>
+      <AppBar open={open} setOpen={setOpen} pathname={pathname} router={router} />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <Image src="/lablogo.png" width={50} height={50} alt="logo" /> 
