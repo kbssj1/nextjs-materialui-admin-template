@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import 'react-data-grid/lib/styles.css';
-import DataGrid from 'react-data-grid';
+import DataGrid, { SelectColumn } from 'react-data-grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -11,19 +11,21 @@ import { Transaction } from '../../service/definitions';
 import BottomTab from './bottomTab';
 
 const columns = [
+  SelectColumn,
   { key: 'id', name: 'ID' },
-  { key: 'title', name: 'Title' }
+  { key: 'productid', name: 'productid'},
+  { key: 'customerId', name: 'customerId'},
+  { key: 'transactionDate', name: 'transactionDate'}
 ];
 
-const rows = [
-  { id: 0, title: 'Example' },
-  { id: 1, title: 'Demo' }
-];
+function rowKeyGetter(row: Transaction) {
+  return row.id;
+}
 
 export default function MuiDataGrid( {data}: {data: Transaction[]}) {
-  const [selectedItem, setSelectedItem] = React.useState<any>([]);
   const [disabledDeleteButton, setDisabledDeleteButton] = React.useState(true);
   const [disabledUpdateButton, setDisabledUpdateButton] = React.useState(true);
+  const [selectedRows, setSelectedRows] = React.useState((): ReadonlySet<string> => new Set());
   const router = useRouter();
 
   React.useEffect(() => {
@@ -38,7 +40,7 @@ export default function MuiDataGrid( {data}: {data: Transaction[]}) {
   };
 
   const updateData = () => {
-    router.push('/system/system1/form?action=update&id='+selectedItem);
+    router.push('/system/system1/form?action=update&id='+selectedRows.values().next().value);
   };
 
   const deleteData = () => {
@@ -48,11 +50,11 @@ export default function MuiDataGrid( {data}: {data: Transaction[]}) {
   };
 
   const onRowSelectionModelChange = (newRowSelectionModel:any) => {
-    const length = newRowSelectionModel.length;
+    setSelectedRows(newRowSelectionModel);
+    const length = newRowSelectionModel.size;
     if (length > 0) {
       setDisabledDeleteButton(false);
       setDisabledUpdateButton(true);
-      setSelectedItem(newRowSelectionModel);
       if (length == 1) {
         setDisabledDeleteButton(false);
         setDisabledUpdateButton(false);
@@ -80,7 +82,14 @@ export default function MuiDataGrid( {data}: {data: Transaction[]}) {
             Delete
           </Button>
         </Stack>
-        <DataGrid className='rdg-light' columns={columns} rows={rows} />
+        <DataGrid 
+          className='rdg-light' 
+          columns={columns} 
+          rows={data} 
+          rowKeyGetter={rowKeyGetter}
+          selectedRows={selectedRows}
+          onSelectedRowsChange={onRowSelectionModelChange}
+        />
       </div>
       <div style={{ height: '30%'}}> </div>
       {!disabledUpdateButton && <div style={{ height: '30%'}}> <BottomTab /> </div>}

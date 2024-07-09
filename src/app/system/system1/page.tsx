@@ -2,9 +2,9 @@ import MuiDataGrid from "./datagrid";
 import { getTransactionData } from "@/app/service/service";
 
 export default async function Page() {
-  const revenue = await getTransactionData();
+  const transaction = await getTransactionData();
 
   return (
-    <MuiDataGrid data={revenue} />
+    <MuiDataGrid data={transaction} />
   );
 }
