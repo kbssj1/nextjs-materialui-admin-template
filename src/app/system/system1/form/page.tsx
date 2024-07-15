@@ -8,12 +8,16 @@ import TextField from '@mui/material/TextField';
 import Breadcrumb from '../../../../component/breadcrumbs';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { useForm } from "react-hook-form";
+import { createTransactionData } from '@/app/service/service';
 
 export default function Page({ searchParams }: { searchParams: { action: string; id: string; };})  
 {
   const router = useRouter();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-  const ok = () => {
+  const onSubmit = async (data:any) => {
+    await createTransactionData(data);
     router.push('/system/system1');
   };
 
@@ -35,58 +39,63 @@ export default function Page({ searchParams }: { searchParams: { action: string;
           active: false
         }]}/>
       </Box>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={2}>
+          <Grid item >
+            <TextField
+              id="id"
+              label="id"
+              type="String"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              defaultValue={searchParams.id}
+              {...register("id")}
+            />
+          </Grid>
 
-      <Grid container spacing={2}>
-        <Grid item >
-          <TextField
-            id="id"
-            label="id"
-            type="String"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            defaultValue={searchParams.id}
-          />
+          <Grid item >
+            <TextField
+              id="productid"
+              label="productId"
+              type="String"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              {...register("productid")}
+            />
+          </Grid>
+
+          <Grid item >
+            <TextField
+              id="customerId"
+              label="customerId"
+              type="String"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              {...register("customerId")}
+            />
+          </Grid>
+
+          <Grid item >
+            <TextField
+              id="transactionDate"
+              label="transactionDate"
+              type="Date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              {...register("transactionDate")}
+            />
+          </Grid>
+
         </Grid>
-
-        <Grid item >
-          <TextField
-            id="productid"
-            label="productId"
-            type="String"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-
-        <Grid item >
-          <TextField
-            id="customerId"
-            label="customerId"
-            type="String"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-
-        <Grid item >
-          <TextField
-            id="transactionDate"
-            label="transactionDate"
-            type="Date"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Grid>
-
-      </Grid>
-      <Stack sx={{ pt: 2 }} spacing={2} direction="row">
-        <Button variant="contained" onClick={cancel}>Cancel</Button>
-        <Button variant="contained" onClick={ok}>Ok</Button>
-      </Stack>
+        <Stack sx={{ pt: 2 }} spacing={2} direction="row">
+          <Button variant="contained" onClick={cancel}>Cancel</Button>
+          <Button variant="contained" type="submit">Ok</Button>
+        </Stack>
+      </form>
     </Box>
 
   );
