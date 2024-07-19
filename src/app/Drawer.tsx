@@ -348,11 +348,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
+const MiniDrawer = ({ children }:{ children: React.ReactNode }) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
+  const firstPath = pathname.split("/")[1];
+  const secondPath = pathname.split("/")[2];
 
+  if (firstPath === 'login')
+    return <> {children} </>;
+  
   return (
     <div style={{display: "flex"}}>
       <AppBar open={open} setOpen={setOpen} pathname={pathname} router={router} />
@@ -363,7 +368,7 @@ const MiniDrawer = ({ children }: { children: React.ReactNode }) => {
             &nbsp; &nbsp;TryLab
           </Typography>
         </DrawerHeader>
-        {pathname.split("/")[1] === "dashboard" ? dashboardMenuList(open, router, pathname.split("/")[2]) : systemMenuList(open, router, pathname.split("/")[2])}
+        {firstPath === "dashboard" ? dashboardMenuList(open, router, secondPath) : systemMenuList(open, router, secondPath)}
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
